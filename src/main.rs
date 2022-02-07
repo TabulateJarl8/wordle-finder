@@ -25,6 +25,12 @@ fn main() {
                         .help("String of letters to exclude. E.g.: `ref`")
                         .takes_value(true)
                         .required(false))
+                    .arg(Arg::new("include")
+                        .short('i')
+                        .long("include")
+                        .help("String of letters to include. E.g.: `ref`")
+                        .takes_value(true)
+                        .required(false))
                     .get_matches();
 
     // get regex pattern
@@ -35,11 +41,17 @@ fn main() {
     let exclude_list_string: String = remove_whitespace(matches.value_of("exclude").unwrap_or("/")).to_lowercase();
     let exclude_regex: Regex = Regex::new(&format!("^[^{}]+$", exclude_list_string)).unwrap();
 
+    // parse include list; remove all whitespace and covert to lowercase to prepare for split
+    let include_list_string: String = remove_whitespace(matches.value_of("include").unwrap_or("^/")).to_lowercase();
+    let include_regex: Regex = Regex::new(&format!("[{}]", include_list_string)).unwrap();
+
 
     for word in words_list {
         if exclude_regex.is_match(word) {
-            if match_pattern.is_match(word) {
-                println!("{}", word);
+            if include_regex.is_match(word) {
+                if match_pattern.is_match(word) {
+                    println!("{}", word);
+                }
             }
         }
     }
