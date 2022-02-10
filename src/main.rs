@@ -5,12 +5,22 @@ fn remove_whitespace(s: &str) -> String {
     s.chars().filter(|c| !c.is_whitespace()).collect()
 }
 
+fn contains_all(word: &str, characters: &str) -> bool {
+    // function to check if word contains all of characters in `characters`
+    for char in characters.chars() {
+        if ! word.contains(char) {
+            return false;
+        }
+    }
+    return true;
+}
+
 fn main() {
     let words = include_str!("words.txt");
     let words_list: Vec<&str> = words.split('\n').collect();
 
     let matches = App::new("Wordle finder")
-                    .version("1.0")
+                    .version("1.1.1")
                     .author("Connor Sample (TabulateJarl8)")
                     .about("Helper tool to narrow down choices for wordle word")
                     .arg(Arg::new("pattern")
@@ -42,13 +52,11 @@ fn main() {
     let exclude_regex: Regex = Regex::new(&format!("^[^{}]+$", exclude_list_string)).unwrap();
 
     // parse include list; remove all whitespace and covert to lowercase to prepare for split
-    let include_list_string: String = remove_whitespace(matches.value_of("include").unwrap_or("^/")).to_lowercase();
-    let include_regex: Regex = Regex::new(&format!("[{}]", include_list_string)).unwrap();
-
+    let include_list_string: String = remove_whitespace(matches.value_of("include").unwrap_or("")).to_lowercase();
 
     for word in words_list {
         if exclude_regex.is_match(word) {
-            if include_regex.is_match(word) {
+            if contains_all(&word, &include_list_string) {
                 if match_pattern.is_match(word) {
                     println!("{}", word);
                 }
