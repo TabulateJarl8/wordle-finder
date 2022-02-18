@@ -4,10 +4,10 @@
 		<style>
 			body {
 				background: #121213;
+				font-family: 'Helvetica', sans-serif;
 			}
 
 			.wrapper {
-				font-family: 'Helvetica', sans-serif;
 				display: grid;
 				grid-template-columns: repeat(5, 1fr);
 				grid-gap: 20px;
@@ -49,6 +49,60 @@
 				50% { transform: scale(1.05); }
 				100% { transform: scale(1); }
 			}
+
+			.keyboard {
+				padding: 5%;
+				padding-right: 30%;
+				color: white;
+			}
+
+			.keyboardRow {
+				text-align: center
+			}
+
+			.key {
+				display: inline-block;
+				/* dark grey #3a3a3c */
+				/* background: ; */
+				padding: 20px;
+				margin-bottom: 10px;
+				margin-left: 5px;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				cursor: pointer;
+			}
+
+			.key[data-exclude='true'] {
+				background: #b59f3b;
+				/* green #538d4e */
+			}
+
+			.key[data-include='true'] {
+
+			}
+
+			.word-list {
+				background: #3a3a3c;
+				width: 20%;
+				right: 3%;
+				top: 8%;
+				padding: 10px;
+				color: white;
+				position: absolute;
+				max-height: 53%;
+				overflow-y: scroll;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				font-size: 1.4rem;
+				text-align: center;
+			}\
+			.word-list>p {
+				padding-bottom: 10px;
+			}
 		</style>
 	</head>
 	<body>
@@ -58,6 +112,54 @@
 			<div class="tile" data-selected="false"></div>
 			<div class="tile" data-selected="false"></div>
 			<div class="tile" data-selected="false"></div>
+		</div>
+		<div class='word-list'>
+			<p>Test</p>
+			<p>Test</p>
+			<p>Test</p>
+			<p>Test</p>
+			<p>Test</p>
+			<p>Test</p>
+			<p>Test</p>
+			<p>Test</p>
+			<p>Test</p>
+			<p>Test</p>
+			<p>Test</p>
+			<p>Test</p>
+		</div>
+		<div class="keyboard">
+			<div class="keyboardRow">
+				<span class="key">Q</span>
+				<span class="key">W</span>
+				<span class="key">E</span>
+				<span class="key">R</span>
+				<span class="key">T</span>
+				<span class="key">Y</span>
+				<span class="key">U</span>
+				<span class="key">I</span>
+				<span class="key">O</span>
+				<span class="key">P</span>
+			</div>
+			<div class="keyboardRow">
+				<span class="key">A</span>
+				<span class="key">S</span>
+				<span class="key">D</span>
+				<span class="key">F</span>
+				<span class="key">G</span>
+				<span class="key">H</span>
+				<span class="key">J</span>
+				<span class="key">K</span>
+				<span class="key">L</span>
+			</div>
+			<div class="keyboardRow">
+				<span class="key">Z</span>
+				<span class="key">X</span>
+				<span class="key">C</span>
+				<span class="key">V</span>
+				<span class="key">B</span>
+				<span class="key">N</span>
+				<span class="key">M</span>
+			</div>
 		</div>
 		<script>
 			var tiles = document.getElementsByClassName('tile');
