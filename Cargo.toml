@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 clap = "3.0.14"
 regex = "1.5.4"
+web-view = "0.7.3"

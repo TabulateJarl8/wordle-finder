@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<style>
+			body {
+				background: #121213;
+			}
+
+			.wrapper {
+				font-family: 'Helvetica', sans-serif;
+				display: grid;
+				grid-template-columns: repeat(5, 1fr);
+				grid-gap: 20px;
+				padding: 5% 20% 0;
+			}
+
+			.tile {
+				outline: 2px solid #3a3a3c;
+				display: inline-flex;
+				line-height: 2rem;
+				font-size: 3.5rem;
+				width: 100%;
+				vertical-align: middle;
+				align-items: center;
+				justify-content: center;
+				text-transform: uppercase;
+				color: white;
+			}
+
+			.tile:after {
+				content: '';
+				display: inline-block;
+				padding-bottom: 100%;
+			}
+
+			.light-outline {
+				outline-color: #565758;
+			}
+		</style>
+	</head>
+	<body>
+		<div class='wrapper'>
+			<div class="tile"></div>
+			<div class="tile"></div>
+			<div class="tile"></div>
+			<div class="tile"></div>
+			<div class="tile"></div>
+		</div>
+		<script>
+			tiles = document.getElementsByClassName('tile');
+
+			// for (var i = 0; i < tiles.length; i++) {
+			// 	tiles[i].addEventListener('click', function(event) {
+			// 		this.classList.add('light-outline');
+			// 	});
+			// 	tiles[i].addEventListener('blur', function(event) {
+			// 		this.classList.remove('light-outline');
+			// 	})
+			// }
+			document.addEventListener('mouseup', function(event) {
+				lastMouseDownX = event.offsetX;
+				lastMouseDownY = event.offsetY;
+				elementMouseIsOver = document.elementsFromPoint(lastMouseDownX, lastMouseDownY);
+				console.log(elementMouseIsOver);
+				// console.log(document.querySelectorAll( ":hover" ));
+			})
+
+
+		</script>
+	</body>
+</html>

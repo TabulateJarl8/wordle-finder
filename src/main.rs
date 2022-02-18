@@ -1,5 +1,6 @@
 use clap::{Arg, App};
 use regex::Regex;
+use web_view::*;
 
 fn remove_whitespace(s: &str) -> String {
     s.chars().filter(|c| !c.is_whitespace()).collect()
@@ -17,7 +18,19 @@ fn contains_all(word: &str, characters: &str) -> bool {
 
 fn main() {
     let words = include_str!("words.txt");
+    let html_content = include_str!("../ui/index.html");
     let words_list: Vec<&str> = words.split('\n').collect();
+
+    web_view::builder()
+        .title("My Project")
+        .content(Content::Html(html_content))
+        .size(990, 720)
+        .resizable(false)
+        .debug(true)
+        .user_data(())
+        .invoke_handler(|_webview, _arg| Ok(()))
+        .run()
+        .unwrap();
 
     let matches = App::new("Wordle finder")
                     .version("1.1.1")
