@@ -11,7 +11,8 @@
 				display: grid;
 				grid-template-columns: repeat(5, 1fr);
 				grid-gap: 20px;
-				padding: 5% 20% 0;
+				padding: 5%;
+				padding-right: 30%;
 			}
 
 			.tile {
@@ -27,41 +28,80 @@
 				color: white;
 			}
 
-			.tile:after {
+			.tile::after {
 				content: '';
 				display: inline-block;
 				padding-bottom: 100%;
 			}
 
-			.light-outline {
+			.tile[data-selected='true'] {
 				outline-color: #565758;
 			}
 		</style>
 	</head>
 	<body>
 		<div class='wrapper'>
-			<div class="tile"></div>
-			<div class="tile"></div>
-			<div class="tile"></div>
-			<div class="tile"></div>
-			<div class="tile"></div>
+			<div class="tile" data-selected="false"></div>
+			<div class="tile" data-selected="false"></div>
+			<div class="tile" data-selected="false"></div>
+			<div class="tile" data-selected="false"></div>
+			<div class="tile" data-selected="false"></div>
 		</div>
 		<script>
 			var tiles = document.getElementsByClassName('tile');
+			const Direction = {
+				Left: 'Left',
+				Right: 'Right'
+			};
+
+			function resetFocusHighlight() {
+				for (var i = 0; i < tiles.length; i++) {
+					tiles[i].setAttribute('data-selected', 'false');
+				}
+			}
+
+			function seekElements(direction, content) {
+				var selectedElement = document.querySelector('[data-selected="true"]');
+				if (selectedElement) {
+					if (content !== null) {
+						selectedElement.innerHTML = content;
+					}
+					resetFocusHighlight();
+					if (direction == Direction.Left) {
+						var sibling = selectedElement.previousElementSibling;
+					} else {
+						var sibling = selectedElement.nextElementSibling;
+					}
+
+					if (sibling) {
+						sibling.setAttribute('data-selected', 'true');
+					}
+				}
+			}
 
 			document.addEventListener('mouseup', function(event) {
 				var lastMouseDownX = event.clientX;
 				var lastMouseDownY = event.clientY;
 				var elementMouseIsOver = document.elementsFromPoint(lastMouseDownX, lastMouseDownY);
 
-				for (var i = 0; i < tiles.length; i++) {
-					tiles[i].classList.remove('light-outline');
-				}
-				
+				resetFocusHighlight();
+
 				if (elementMouseIsOver[0].classList.contains('tile')) {
-					elementMouseIsOver[0].classList.add('light-outline');
+					elementMouseIsOver[0].setAttribute('data-selected', 'true');
 				}
-			})
+			});
+
+			document.addEventListener('keydown', function(e) {
+				if (e.key === "Backspace") {
+					seekElements(Direction.Left, '');
+				} else if (e.key.match(/^[a-zA-Z]{1}$/g)) {
+					seekElements(Direction.Right, e.key);
+				} else if (e.key === "ArrowRight") {
+					seekElements(Direction.Right, null);
+				} else if (e.key === "ArrowLeft") {
+					seekElements(Direction.Left, null);
+				}
+			});
 
 
 		</script>
