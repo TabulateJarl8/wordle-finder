@@ -72,9 +72,35 @@
 				}
 			}
 
+			function findElementWithContent(includeLastElement) {
+				var selectedElement = null;
+				for (var i = 0; i < tiles.length; i++) {
+					if (tiles[i].innerHTML == "") {
+						var selectedElement = tiles[i];
+						break;
+					}
+				}
+
+				if (selectedElement === null && includeLastElement === true) {
+					selectedElement = tiles[tiles.length - 1];
+				}
+				return selectedElement;
+			}
+
 			function seekElements(direction, content) {
 				var selectedElement = document.querySelector('[data-selected="true"]');
-				if (selectedElement) {
+				if (!selectedElement) {
+					var includeLastElement = false;
+					if (direction == Direction.Left) {
+						includeLastElement = true;
+					}
+
+					selectedElement = findElementWithContent(includeLastElement);
+					if (selectedElement === null) {
+						return;
+					}
+
+				}
 					if (content !== null) {
 						selectedElement.innerHTML = content;
 					}
@@ -88,7 +114,6 @@
 					if (sibling) {
 						sibling.setAttribute('data-selected', 'true');
 					}
-				}
 			}
 
 			document.addEventListener('mouseup', function(event) {
