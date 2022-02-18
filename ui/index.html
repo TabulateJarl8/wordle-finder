@@ -13,6 +13,7 @@
 				grid-gap: 20px;
 				padding: 5%;
 				padding-right: 30%;
+				padding-top: 15%;
 			}
 
 			.tile {
@@ -247,6 +248,7 @@
 
 			document.addEventListener('keydown', function(e) {
 				if (e.key === "Backspace") {
+					// TODO: backspace when no focus starts at 0
 					seekElements(Direction.Left, '');
 				} else if (e.key.match(/^[a-zA-Z]{1}$/g)) {
 					seekElements(Direction.Right, e.key);
