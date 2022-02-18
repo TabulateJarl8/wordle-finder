@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<style>
@@ -46,22 +47,20 @@
 			<div class="tile"></div>
 		</div>
 		<script>
-			tiles = document.getElementsByClassName('tile');
+			var tiles = document.getElementsByClassName('tile');
 
-			// for (var i = 0; i < tiles.length; i++) {
-			// 	tiles[i].addEventListener('click', function(event) {
-			// 		this.classList.add('light-outline');
-			// 	});
-			// 	tiles[i].addEventListener('blur', function(event) {
-			// 		this.classList.remove('light-outline');
-			// 	})
-			// }
 			document.addEventListener('mouseup', function(event) {
-				lastMouseDownX = event.offsetX;
-				lastMouseDownY = event.offsetY;
-				elementMouseIsOver = document.elementsFromPoint(lastMouseDownX, lastMouseDownY);
-				console.log(elementMouseIsOver);
-				// console.log(document.querySelectorAll( ":hover" ));
+				var lastMouseDownX = event.clientX;
+				var lastMouseDownY = event.clientY;
+				var elementMouseIsOver = document.elementsFromPoint(lastMouseDownX, lastMouseDownY);
+
+				for (var i = 0; i < tiles.length; i++) {
+					tiles[i].classList.remove('light-outline');
+				}
+				
+				if (elementMouseIsOver[0].classList.contains('tile')) {
+					elementMouseIsOver[0].classList.add('light-outline');
+				}
 			})
 
 
