@@ -54,6 +54,10 @@
 				padding: 5%;
 				padding-right: 30%;
 				color: white;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
 			}
 
 			.keyboardRow {
@@ -67,11 +71,8 @@
 				padding: 20px;
 				margin-bottom: 10px;
 				margin-left: 5px;
-				-webkit-user-select: none;
-				-moz-user-select: none;
-				-ms-user-select: none;
-				user-select: none;
 				cursor: pointer;
+				border-radius: 3px;
 			}
 
 			.key[data-state='exclude'] {
@@ -83,15 +84,20 @@
 				background: #b59f3b;
 			}
 
+			.key-reserved {
+				background-color: #DBDDDF;
+				color: black;
+			}
+
 			.word-list {
 				background: #3a3a3c;
 				width: 20%;
 				right: 3%;
+				height: 84%;
 				top: 8%;
 				padding: 10px;
 				color: white;
 				position: absolute;
-				max-height: 53%;
 				overflow-y: scroll;
 				-webkit-user-select: none;
 				-moz-user-select: none;
@@ -100,7 +106,8 @@
 				font-size: 1.4rem;
 				text-align: center;
 			}
-			.word-list>p {
+
+			.word-list > p {
 				padding-bottom: 10px;
 			}
 		</style>
@@ -152,6 +159,7 @@
 				<span class="key">L</span>
 			</div>
 			<div class="keyboardRow">
+				<span class='key key-reserved' id='reset'>Reset</span>
 				<span class="key">Z</span>
 				<span class="key">X</span>
 				<span class="key">C</span>
@@ -159,8 +167,10 @@
 				<span class="key">B</span>
 				<span class="key">N</span>
 				<span class="key">M</span>
+				<span class='key key-reserved' id='enter'>Enter</span>
 			</div>
 		</div>
+		<div class='check-button'></div>
 		<script>
 			var tiles = document.getElementsByClassName('tile');
 			var keys = document.getElementsByClassName('key');
@@ -250,18 +260,29 @@
 			///////////////////////////
 			// Keyboard
 			///////////////////////////
+
 			for (var i = 0; i < keys.length; i++) {
-				keys[i].addEventListener('click', function(e) {
-					var state = this.getAttribute('data-state');
-					if (state == 'exclude') {
-						this.setAttribute('data-state', 'include');
-					} else if (state == 'include') {
-						this.removeAttribute('data-state');
-					} else {
-						this.setAttribute('data-state', 'exclude');
-					}
-				});
+				if (!keys[i].classList.contains('key-reserved')) {
+					keys[i].addEventListener('click', function(e) {
+						var state = this.getAttribute('data-state');
+						if (state == 'exclude') {
+							this.setAttribute('data-state', 'include');
+						} else if (state == 'include') {
+							this.removeAttribute('data-state');
+						} else {
+							this.setAttribute('data-state', 'exclude');
+						}
+					});
+				}
 			}
+
+			document.getElementById('reset').addEventListener('click', function(e) {
+
+			});
+
+			document.getElementById('enter').addEventListener('click', function(e) {
+
+			});
 		</script>
 	</body>
 </html>
