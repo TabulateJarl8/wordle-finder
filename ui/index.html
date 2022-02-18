@@ -63,7 +63,7 @@
 			.key {
 				display: inline-block;
 				/* dark grey #3a3a3c */
-				/* background: ; */
+				background: #818384;
 				padding: 20px;
 				margin-bottom: 10px;
 				margin-left: 5px;
@@ -74,13 +74,13 @@
 				cursor: pointer;
 			}
 
-			.key[data-exclude='true'] {
-				background: #b59f3b;
+			.key[data-state='exclude'] {
+				background: #3a3a3c;
 				/* green #538d4e */
 			}
 
-			.key[data-include='true'] {
-
+			.key[data-state='include'] {
+				background: #b59f3b;
 			}
 
 			.word-list {
@@ -99,7 +99,7 @@
 				user-select: none;
 				font-size: 1.4rem;
 				text-align: center;
-			}\
+			}
 			.word-list>p {
 				padding-bottom: 10px;
 			}
@@ -163,6 +163,11 @@
 		</div>
 		<script>
 			var tiles = document.getElementsByClassName('tile');
+			var keys = document.getElementsByClassName('key');
+
+			///////////////////////////
+			// Letter boxes
+			///////////////////////////
 			const Direction = {
 				Left: 'Left',
 				Right: 'Right'
@@ -242,7 +247,21 @@
 				}
 			});
 
-
+			///////////////////////////
+			// Keyboard
+			///////////////////////////
+			for (var i = 0; i < keys.length; i++) {
+				keys[i].addEventListener('click', function(e) {
+					var state = this.getAttribute('data-state');
+					if (state == 'exclude') {
+						this.setAttribute('data-state', 'include');
+					} else if (state == 'include') {
+						this.removeAttribute('data-state');
+					} else {
+						this.setAttribute('data-state', 'exclude');
+					}
+				});
+			}
 		</script>
 	</body>
 </html>
