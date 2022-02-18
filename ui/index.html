@@ -26,6 +26,11 @@
 				justify-content: center;
 				text-transform: uppercase;
 				color: white;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				cursor: pointer;
 			}
 
 			.tile::after {
@@ -36,6 +41,13 @@
 
 			.tile[data-selected='true'] {
 				outline-color: #565758;
+				animation: pulse 0.15s normal;
+			}
+
+			@keyframes pulse {
+				0% { transform: scale(1); }
+				50% { transform: scale(1.05); }
+				100% { transform: scale(1); }
 			}
 		</style>
 	</head>

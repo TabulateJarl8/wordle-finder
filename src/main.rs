@@ -22,7 +22,7 @@ fn main() {
     let words_list: Vec<&str> = words.split('\n').collect();
 
     web_view::builder()
-        .title("My Project")
+        .title("Wordle Finder")
         .content(Content::Html(html_content))
         .size(990, 720)
         .resizable(false)
@@ -32,8 +32,8 @@ fn main() {
         .run()
         .unwrap();
 
-    let matches = App::new("Wordle finder")
-                    .version("1.1.1")
+    let matches = App::new("Wordle Finder")
+                    .version("1.2.0")
                     .author("Connor Sample (TabulateJarl8)")
                     .about("Helper tool to narrow down choices for wordle word")
                     .arg(Arg::new("pattern")
