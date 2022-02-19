@@ -82,7 +82,6 @@
 
 			.key[data-state='exclude'] {
 				background: #3a3a3c;
-				/* green #538d4e */
 			}
 
 			.key[data-state='include'] {
@@ -239,7 +238,6 @@
 
 			document.addEventListener('keydown', function(e) {
 				if (e.key === "Backspace") {
-					// TODO: backspace when no focus starts at 0
 					seekElements(Direction.Left, '');
 				} else if (e.key.match(/^[a-zA-Z]{1}$/g)) {
 					seekElements(Direction.Right, e.key);
@@ -322,6 +320,9 @@
 				payload = {cmd: "populateWordList", pattern: pattern, exclude: exclude, include: include};
 				sendMessageToServer(JSON.stringify(payload));
 			});
+
+			// TODO: keys turn green when type
+			// var relatedKey = document.evaluate('//*[text()="' + letter.toUpperCase() + '"]', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE).snapshotItem(0);
 		</script>
 	</body>
 </html>
