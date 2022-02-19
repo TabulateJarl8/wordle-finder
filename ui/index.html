@@ -41,7 +41,7 @@
 			}
 
 			.tile[data-selected='true'] {
-				outline-color: #565758;
+				outline-color: white !important;
 				animation: pulse 0.15s normal;
 			}
 
@@ -72,7 +72,6 @@
 
 			.key {
 				display: inline-block;
-				/* dark grey #3a3a3c */
 				background: #818384;
 				padding: 20px;
 				margin-bottom: 10px;
@@ -126,20 +125,7 @@
 			<div class="tile" data-selected="false"></div>
 			<div class="tile" data-selected="false"></div>
 		</div>
-		<div class='word-list'>
-			<p>Test</p>
-			<p>Test</p>
-			<p>Test</p>
-			<p>Test</p>
-			<p>Test</p>
-			<p>Test</p>
-			<p>Test</p>
-			<p>Test</p>
-			<p>Test</p>
-			<p>Test</p>
-			<p>Test</p>
-			<p>Test</p>
-		</div>
+		<div class='word-list' id='word-list'></div>
 		<div class="keyboard">
 			<div class="keyboardRow">
 				<span class="key">Q</span>
@@ -284,11 +270,57 @@
 			}
 
 			document.getElementById('reset').addEventListener('click', function(e) {
-
+				for (var i = 0; i < keys.length; i++) {
+					keys[i].removeAttribute('data-state');
+				}
+				for (var i = 0; i < tiles.length; i++) {
+					tiles[i].innerHTML = '';
+					tiles[i].removeAttribute('data-selected');
+				}
 			});
 
-			document.getElementById('enter').addEventListener('click', function(e) {
+			///////////////////////////
+			// Backend interaction
+			///////////////////////////
 
+			function populateWordList(words) {
+				document.getElementById('word-list').innerHTML = '';
+				for (var i = 0; i < words.length; i++) {
+					document.getElementById('word-list').innerHTML += "<p>" + words[i] + "</p>\n";
+				}
+			}
+
+			function sendMessageToServer(cmd) {
+				if (window.external !== undefined) {
+					return window.external.invoke(cmd);
+				} else if (window.webkit.messageHandlers.external !== undefined) {
+					return window.webkit.messageHandlers.external.postMessage(cmd);
+				}
+				throw new Error('Failed to locate webkit external handler')
+			}
+
+			document.getElementById('enter').addEventListener('click', function(e) {
+				pattern = '';
+				for (var i = 0; i < tiles.length; i++) {
+					if (tiles[i].innerHTML != '') {
+						pattern += tiles[i].innerHTML;
+					} else {
+						pattern += '.';
+					}
+				}
+
+				exclude = '/';
+				include = '';
+				document.querySelectorAll('[data-state]').forEach(function(key) {
+					if (key.getAttribute('data-state') == 'exclude') {
+						exclude += key.innerHTML;
+					} else {
+						include += key.innerHTML;
+					}
+				});
+
+				payload = {cmd: "populateWordList", pattern: pattern, exclude: exclude, include: include};
+				sendMessageToServer(JSON.stringify(payload));
 			});
 		</script>
 	</body>
