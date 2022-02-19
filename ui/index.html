@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body {
+				background: #121213;
+				font-family: 'Helvetica', sans-serif;
+			}
+
+			.wrapper {
+				display: grid;
+				grid-template-columns: repeat(5, 1fr);
+				grid-gap: 20px;
+				padding: 5%;
+				padding-right: 30%;
+				padding-top: 15%;
+			}
+
+			.tile {
+				outline: 2px solid #3a3a3c;
+				display: inline-flex;
+				line-height: 2rem;
+				font-size: 3.5rem;
+				width: 100%;
+				vertical-align: middle;
+				align-items: center;
+				justify-content: center;
+				text-transform: uppercase;
+				color: white;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				cursor: pointer;
+			}
+
+			.tile::after {
+				content: '';
+				display: inline-block;
+				padding-bottom: 100%;
+			}
+
+			.tile[data-selected='true'] {
+				outline-color: white !important;
+				animation: pulse 0.15s normal;
+			}
+
+			.tile:not(:empty) {
+				background: #538d4e;
+				outline-color: #538d4e;
+			}
+
+			@keyframes pulse {
+				0% { transform: scale(1); }
+				50% { transform: scale(1.05); }
+				100% { transform: scale(1); }
+			}
+
+			.keyboard {
+				padding: 5%;
+				padding-right: 30%;
+				color: white;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+
+			.keyboardRow {
+				text-align: center
+			}
+
+			.key {
+				display: inline-block;
+				background: #818384;
+				padding: 20px;
+				margin-bottom: 10px;
+				margin-left: 5px;
+				cursor: pointer;
+				border-radius: 3px;
+			}
+
+			.key[data-state='exclude'] {
+				background: #3a3a3c;
+			}
+
+			.key[data-state='include'] {
+				background: #b59f3b;
+			}
+
+			.key-reserved {
+				background-color: #DBDDDF;
+				color: black;
+			}
+
+			.word-list {
+				background: #3a3a3c;
+				width: 20%;
+				right: 3%;
+				height: 84%;
+				top: 8%;
+				padding: 10px;
+				color: white;
+				position: absolute;
+				overflow-y: scroll;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				font-size: 1.4rem;
+				text-align: center;
+			}
+
+			.word-list > p {
+				padding-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class='wrapper'>
+			<div class="tile" data-selected="false"></div>
+			<div class="tile" data-selected="false"></div>
+			<div class="tile" data-selected="false"></div>
+			<div class="tile" data-selected="false"></div>
+			<div class="tile" data-selected="false"></div>
+		</div>
+		<div class='word-list' id='word-list'></div>
+		<div class="keyboard">
+			<div class="keyboardRow">
+				<span class="key">Q</span>
+				<span class="key">W</span>
+				<span class="key">E</span>
+				<span class="key">R</span>
+				<span class="key">T</span>
+				<span class="key">Y</span>
+				<span class="key">U</span>
+				<span class="key">I</span>
+				<span class="key">O</span>
+				<span class="key">P</span>
+			</div>
+			<div class="keyboardRow">
+				<span class="key">A</span>
+				<span class="key">S</span>
+				<span class="key">D</span>
+				<span class="key">F</span>
+				<span class="key">G</span>
+				<span class="key">H</span>
+				<span class="key">J</span>
+				<span class="key">K</span>
+				<span class="key">L</span>
+			</div>
+			<div class="keyboardRow">
+				<span class='key key-reserved' id='reset'>Reset</span>
+				<span class="key">Z</span>
+				<span class="key">X</span>
+				<span class="key">C</span>
+				<span class="key">V</span>
+				<span class="key">B</span>
+				<span class="key">N</span>
+				<span class="key">M</span>
+				<span class='key key-reserved' id='enter'>Enter</span>
+			</div>
+		</div>
+		<div class='check-button'></div>
+		<script>
+			var tiles = document.getElementsByClassName('tile');
+			var keys = document.getElementsByClassName('key');
+
+			///////////////////////////
+			// Letter boxes
+			///////////////////////////
+			const Direction = {
+				Left: 'Left',
+				Right: 'Right'
+			};
+
+			function resetFocusHighlight() {
+				for (var i = 0; i < tiles.length; i++) {
+					tiles[i].setAttribute('data-selected', 'false');
+				}
+			}
+
+			function findElementWithContent(includeLastElement) {
+				var selectedElement = null;
+				for (var i = 0; i < tiles.length; i++) {
+					if (tiles[i].innerHTML == "") {
+						var selectedElement = tiles[i];
+						break;
+					}
+				}
+
+				if (selectedElement === null && includeLastElement === true) {
+					selectedElement = tiles[tiles.length - 1];
+				}
+				return selectedElement;
+			}
+
+			function seekElements(direction, content) {
+				var selectedElement = document.querySelector('[data-selected="true"]');
+				if (!selectedElement) {
+					var includeLastElement = false;
+					if (direction == Direction.Left) {
+						includeLastElement = true;
+					}
+
+					selectedElement = findElementWithContent(includeLastElement);
+					if (selectedElement === null) {
+						return;
+					}
+
+				}
+					if (content !== null) {
+						selectedElement.innerHTML = content;
+					}
+					resetFocusHighlight();
+					if (direction == Direction.Left) {
+						var sibling = selectedElement.previousElementSibling;
+					} else {
+						var sibling = selectedElement.nextElementSibling;
+					}
+
+					if (sibling) {
+						sibling.setAttribute('data-selected', 'true');
+					}
+			}
+
+			document.addEventListener('mouseup', function(event) {
+				var lastMouseDownX = event.clientX;
+				var lastMouseDownY = event.clientY;
+				var elementMouseIsOver = document.elementsFromPoint(lastMouseDownX, lastMouseDownY);
+
+				resetFocusHighlight();
+
+				if (elementMouseIsOver[0].classList.contains('tile')) {
+					elementMouseIsOver[0].setAttribute('data-selected', 'true');
+				}
+			});
+
+			document.addEventListener('keydown', function(e) {
+				if (e.key === "Backspace") {
+					seekElements(Direction.Left, '');
+				} else if (e.key.match(/^[a-zA-Z]{1}$/g)) {
+					seekElements(Direction.Right, e.key);
+				} else if (e.key === "ArrowRight") {
+					seekElements(Direction.Right, null);
+				} else if (e.key === "ArrowLeft") {
+					seekElements(Direction.Left, null);
+				}
+			});
+
+			///////////////////////////
+			// Keyboard
+			///////////////////////////
+
+			for (var i = 0; i < keys.length; i++) {
+				if (!keys[i].classList.contains('key-reserved')) {
+					keys[i].addEventListener('click', function(e) {
+						var state = this.getAttribute('data-state');
+						if (state == 'exclude') {
+							this.setAttribute('data-state', 'include');
+						} else if (state == 'include') {
+							this.removeAttribute('data-state');
+						} else {
+							this.setAttribute('data-state', 'exclude');
+						}
+					});
+				}
+			}
+
+			document.getElementById('reset').addEventListener('click', function(e) {
+				for (var i = 0; i < keys.length; i++) {
+					keys[i].removeAttribute('data-state');
+				}
+				for (var i = 0; i < tiles.length; i++) {
+					tiles[i].innerHTML = '';
+					tiles[i].removeAttribute('data-selected');
+				}
+			});
+
+			///////////////////////////
+			// Backend interaction
+			///////////////////////////
+
+			function populateWordList(words) {
+				document.getElementById('word-list').innerHTML = '';
+				for (var i = 0; i < words.length; i++) {
+					document.getElementById('word-list').innerHTML += "<p>" + words[i] + "</p>\n";
+				}
+			}
+
+			function sendMessageToServer(cmd) {
+				if (window.external !== undefined) {
+					return window.external.invoke(cmd);
+				} else if (window.webkit.messageHandlers.external !== undefined) {
+					return window.webkit.messageHandlers.external.postMessage(cmd);
+				}
+				throw new Error('Failed to locate webkit external handler')
+			}
+
+			document.getElementById('enter').addEventListener('click', function(e) {
+				pattern = '';
+				for (var i = 0; i < tiles.length; i++) {
+					if (tiles[i].innerHTML != '') {
+						pattern += tiles[i].innerHTML;
+					} else {
+						pattern += '.';
+					}
+				}
+
+				exclude = '/';
+				include = '';
+				document.querySelectorAll('[data-state]').forEach(function(key) {
+					if (key.getAttribute('data-state') == 'exclude') {
+						exclude += key.innerHTML;
+					} else {
+						include += key.innerHTML;
+					}
+				});
+
+				payload = {cmd: "populateWordList", pattern: pattern, exclude: exclude, include: include};
+				sendMessageToServer(JSON.stringify(payload));
+			});
+
+			// TODO: keys turn green when type
+			// var relatedKey = document.evaluate('//*[text()="' + letter.toUpperCase() + '"]', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE).snapshotItem(0);
+		</script>
+	</body>
+</html>

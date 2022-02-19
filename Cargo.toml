@@ -1,6 +1,6 @@
 [package]
 name = "wordle_finder"
-version = "1.1.1"
+version = "2.0.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -8,3 +8,6 @@ edition = "2021"
 [dependencies]
 clap = "3.0.14"
 regex = "1.5.4"
+serde = { version = "1.0.136", features = ["derive"] }
+serde_json = "1.0.79"
+web-view = "0.7.3"
