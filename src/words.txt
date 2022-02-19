@@ -979,7 +979,6 @@ aspis
 assai
 assay
 assam
-asses
 asset
 assis
 assoc
@@ -1742,7 +1741,6 @@ bison
 byssi
 bisso
 bisti
-bitch
 bited
 biter
 bites
@@ -1922,9 +1920,7 @@ bonav
 bonbo
 bonce
 bonds
-boned
 boney
-boner
 bones
 bongo
 bongs
@@ -1936,7 +1932,6 @@ bonum
 bonus
 bonze
 booby
-boobs
 boodh
 boody
 booed
@@ -3457,7 +3452,6 @@ cunye
 cunit
 cunni
 cunny
-cunts
 cunza
 cupay
 cupel
@@ -3771,7 +3765,6 @@ derri
 derry
 derth
 derve
-desex
 desyl
 desks
 desma
@@ -3833,7 +3826,6 @@ dicer
 dices
 dicht
 dicky
-dicks
 dicot
 dicta
 dicty
@@ -3861,13 +3853,9 @@ digor
 digue
 dying
 diked
-dyked
 diker
-dyker
 dikes
-dykes
 dylan
-dildo
 dilis
 dilli
 dilly
@@ -4756,9 +4744,7 @@ faena
 faery
 faffy
 fager
-faggy
 fagin
-fagot
 fagus
 faham
 fayal
@@ -5349,7 +5335,6 @@ fuage
 fubby
 fubsy
 fuchi
-fucks
 fucus
 fuder
 fudge
@@ -6627,7 +6612,6 @@ horde
 horim
 horla
 horme
-horny
 horns
 horol
 horry
@@ -9557,7 +9541,6 @@ nawle
 nawob
 nazim
 nazir
-nazis
 neaps
 nears
 neath
@@ -10459,7 +10442,6 @@ pendn
 pends
 penes
 pengo
-penis
 penna
 penni
 penny
@@ -10880,8 +10862,6 @@ porgo
 poria
 porky
 porks
-porno
-porns
 poros
 porry
 porta
@@ -10967,7 +10947,6 @@ priam
 price
 prich
 pricy
-prick
 pride
 pridy
 pried
@@ -11042,9 +11021,6 @@ psoai
 psoas
 psora
 pubal
-pubes
-pubic
-pubis
 puces
 pucka
 pucks
@@ -11127,7 +11103,6 @@ pursy
 purty
 puses
 pushy
-pussy
 putid
 puton
 putti
@@ -11312,9 +11287,6 @@ ranli
 ranny
 ranty
 rants
-raped
-raper
-rapes
 raphe
 rapic
 rapid
@@ -11543,7 +11515,6 @@ resaw
 resee
 reset
 resew
-resex
 resid
 resin
 resit
@@ -12386,11 +12357,6 @@ sewed
 sewen
 sewer
 sewin
-sexed
-sexes
-sexly
-sexto
-sexts
 sfoot
 sfree
 shack
@@ -12500,7 +12466,6 @@ shish
 shisn
 shist
 shita
-shits
 shiva
 shive
 shivy
@@ -12905,7 +12870,6 @@ slurb
 slurp
 slurs
 slush
-sluts
 smack
 smaik
 small
@@ -13219,7 +13183,6 @@ spend
 spent
 speos
 spere
-sperm
 spete
 spewy
 spews
@@ -14034,7 +13997,6 @@ terse
 terzo
 tesla
 testa
-teste
 testy
 tests
 tetch
@@ -14273,7 +14235,6 @@ tythe
 titis
 title
 titre
-titty
 titus
 tiver
 tiwaz
@@ -14680,7 +14641,6 @@ twill
 twilt
 twine
 twiny
-twink
 twins
 twint
 twire
@@ -14875,7 +14835,6 @@ unsay
 unsee
 unset
 unsew
-unsex
 unshy
 unsin
 unsly
@@ -15577,7 +15536,6 @@ whoof
 whoop
 whoot
 whops
-whore
 whory
 whorl
 whort

@@ -21,9 +21,10 @@ fn main() {
     let words = include_str!("words.txt");
     let html_content = include_str!("../ui/index.html");
     let words_list: Vec<&str> = words.split('\n').collect();
+    const VERSION: &str = "2.0.0";
 
     let matches = App::new("Wordle Finder")
-                    .version("1.2.0")
+                    .version(VERSION)
                     .author("Connor Sample (TabulateJarl8)")
                     .about("Helper tool to narrow down choices for wordle word")
                     .arg(Arg::new("pattern")
@@ -54,11 +55,11 @@ fn main() {
 
     if matches.is_present("gui") {
         web_view::builder()
-            .title("Wordle Finder")
+            .title(&format!("Wordle Finder v{}", VERSION))
             .content(Content::Html(html_content))
             .size(990, 720)
             .resizable(false)
-            .debug(true)
+            .debug(false)
             .user_data(())
             .invoke_handler(|webview, arg| {
                 use Cmd::*;
