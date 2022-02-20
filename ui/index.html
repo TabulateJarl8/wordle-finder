@@ -281,20 +281,11 @@
 			// Backend interaction
 			///////////////////////////
 
-			function populateWordList(words) {
+			window.populateWordList = (words) => {
 				document.getElementById('word-list').innerHTML = '';
 				for (var i = 0; i < words.length; i++) {
 					document.getElementById('word-list').innerHTML += "<p>" + words[i] + "</p>\n";
 				}
-			}
-
-			function sendMessageToServer(cmd) {
-				if (window.external !== undefined) {
-					return window.external.invoke(cmd);
-				} else if (window.webkit.messageHandlers.external !== undefined) {
-					return window.webkit.messageHandlers.external.postMessage(cmd);
-				}
-				throw new Error('Failed to locate webkit external handler')
 			}
 
 			document.getElementById('enter').addEventListener('click', function(e) {
@@ -318,7 +309,8 @@
 				});
 
 				payload = {cmd: "populateWordList", pattern: pattern, exclude: exclude, include: include};
-				sendMessageToServer(JSON.stringify(payload));
+				console.log('posting');
+				window.ipc.postMessage(JSON.stringify(payload));
 			});
 
 			// TODO: keys turn green when type

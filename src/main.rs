@@ -1,7 +1,20 @@
 use clap::{Arg, App};
 use regex::Regex;
-use web_view::*;
 use serde::Deserialize;
+use std::{
+    cell::RefCell,
+    collections::HashMap
+};
+use wry::{
+    application::window::{Window, WindowId},
+    webview::WebView,
+};
+
+thread_local! {
+    static WEBVIEWS: RefCell<HashMap<WindowId, WebView>> = RefCell::new(HashMap::new());
+}
+
+static VERSION: &str = "2.1.0";
 
 fn remove_whitespace(s: &str) -> String {
     s.chars().filter(|c| !c.is_whitespace()).collect()
@@ -18,11 +31,7 @@ fn contains_all(word: &str, characters: &str) -> bool {
 }
 
 fn main() {
-    let words = include_str!("words.txt");
-    let html_content = include_str!("../ui/index.html");
-    let words_list: Vec<&str> = words.split('\n').collect();
-    const VERSION: &str = "2.0.0";
-
+    // clap setup
     let matches = App::new("Wordle Finder")
                     .version(VERSION)
                     .author("Connor Sample (TabulateJarl8)")
@@ -53,33 +62,13 @@ fn main() {
                         .required(false))
                     .get_matches();
 
+    // run gui if specified
     if matches.is_present("gui") {
-        web_view::builder()
-            .title(&format!("Wordle Finder v{}", VERSION))
-            .content(Content::Html(html_content))
-            .size(990, 720)
-            .resizable(false)
-            .debug(false)
-            .user_data(())
-            .invoke_handler(|webview, arg| {
-                use Cmd::*;
-
-                match serde_json::from_str(arg).unwrap() {
-                    PopulateWordList { pattern, include, exclude } => {
-                        let match_pattern: Regex = Regex::new(&pattern.to_lowercase()).unwrap();
-                        let exclude_regex: Regex = Regex::new(&format!("^[^{}]+$", exclude.to_lowercase())).unwrap();
-                        let include_string = include.to_lowercase();
-                        let matching_words = find_matching_words(&match_pattern, &exclude_regex, &include_string, &words_list);
-                        webview.eval(&format!("populateWordList({:?})", matching_words))
-                    },
-                }
-
-
-            })
-            .run()
-            .unwrap();
-
-        std::process::exit(0x0100);
+        match run_gui() {
+            Err(error) => panic!("Error when running GUI: {:?}", error),
+            _ => (),
+        };
+        std::process::exit(0);
     }
 
     // get regex pattern
@@ -93,13 +82,92 @@ fn main() {
     // parse include list; remove all whitespace and covert to lowercase to prepare for split
     let include_list_string: String = remove_whitespace(matches.value_of("include").unwrap_or("")).to_lowercase();
 
-    let matching_words = find_matching_words(&match_pattern, &exclude_regex, &include_list_string, &words_list);
+    let matching_words = find_matching_words(&match_pattern, &exclude_regex, &include_list_string);
     for word in matching_words {
         println!("{}", word);
     }
 }
 
-fn find_matching_words(match_pattern: &Regex, exclude_regex: &Regex, include_list_string: &String, words_list: &Vec<&str>) -> Vec<String> {
+fn run_gui() -> wry::Result<()> {
+    use wry::{
+        application::{
+          event::{Event, WindowEvent},
+          event_loop::{ControlFlow, EventLoop},
+          window::WindowBuilder,
+          dpi::LogicalSize,
+        },
+        webview::WebViewBuilder,
+    };
+
+    // build window
+    let html_content = include_str!("../ui/index.html");
+    let event_loop = EventLoop::new();
+    let window = WindowBuilder::new()
+        .with_title(format!("Wordle Finder v{}", VERSION))
+        .with_inner_size(LogicalSize::new(990.0, 720.0))
+        .build(&event_loop)?;
+    let window_id = window.id();
+
+    // build webview
+    let webview = WebViewBuilder::new(window)?
+        .with_html(html_content)?
+        .with_ipc_handler(ipc_handler)
+        .build()?;
+
+    // add webview and window ID to WEBVIEWS refcell hashmap
+    let mut webview_hashmap: HashMap<WindowId, WebView> = HashMap::new();
+    webview_hashmap.insert(window_id, webview);
+    // RefCell<HashMap<WindowId, WebView>> = RefCell::new(HashMap::new());
+    WEBVIEWS.with(|webviews| {
+        *webviews.borrow_mut() = webview_hashmap;
+    });
+
+
+    // run event loop
+    event_loop.run(move |event, _, control_flow| {
+        *control_flow = ControlFlow::Wait;
+
+        match event {
+            Event::WindowEvent {
+                event: WindowEvent::CloseRequested,
+                ..
+            } => *control_flow = ControlFlow::Exit,
+            _ => (),
+        }
+    });
+}
+
+fn ipc_handler(window: &Window, message: String) {
+    use Cmd::*;
+
+    // match incoming IPC message
+    match serde_json::from_str(&message).unwrap() {
+        PopulateWordList { pattern, include, exclude } => {
+            // parse JSON payload
+            let match_pattern: Regex = Regex::new(&pattern.to_lowercase()).unwrap();
+            let exclude_regex: Regex = Regex::new(&format!("^[^{}]+$", exclude.to_lowercase())).unwrap();
+            let include_string = include.to_lowercase();
+            let matching_words = find_matching_words(&match_pattern, &exclude_regex, &include_string);
+
+            // send response back to client
+            WEBVIEWS.with(|webviews| {
+                let webviews = webviews.borrow();
+
+                if let Some(wv) = webviews.get(&window.id()) {
+                    let result = wv.evaluate_script(&format!("window.populateWordList({:?})", matching_words));
+                    match result {
+                        Err(error) => println!("Error when sending response to client (populateWordList): {:?}", error),
+                        _ => (),
+                    }
+                }
+            })
+        }
+    }
+}
+
+fn find_matching_words(match_pattern: &Regex, exclude_regex: &Regex, include_list_string: &String) -> Vec<String> {
+    let words = include_str!("words.txt");
+    let words_list: Vec<&str> = words.split('\n').collect();
     let mut matching_words: Vec<String> = Vec::new();
 
     for word in words_list {
