@@ -1,4 +1,4 @@
-use clap::{Arg, App};
+use clap::{Arg, Command};
 use regex::Regex;
 use serde::Deserialize;
 use std::{
@@ -10,11 +10,13 @@ use wry::{
     webview::WebView,
 };
 
+// TODO: Bundle WebView2Loader.dll for windows users
+
 thread_local! {
     static WEBVIEWS: RefCell<HashMap<WindowId, WebView>> = RefCell::new(HashMap::new());
 }
 
-static VERSION: &str = "2.1.0";
+static VERSION: &str = "2.2.0";
 
 fn remove_whitespace(s: &str) -> String {
     s.chars().filter(|c| !c.is_whitespace()).collect()
@@ -32,7 +34,7 @@ fn contains_all(word: &str, characters: &str) -> bool {
 
 fn main() {
     // clap setup
-    let matches = App::new("Wordle Finder")
+    let matches = Command::new("Wordle Finder")
                     .version(VERSION)
                     .author("Connor Sample (TabulateJarl8)")
                     .about("Helper tool to narrow down choices for wordle word")
@@ -62,8 +64,8 @@ fn main() {
                         .required(false))
                     .get_matches();
 
-    // run gui if specified
-    if matches.is_present("gui") {
+    // run gui if specified or if not a tty (not running from a terminal)
+    if matches.is_present("gui") || !atty::is(atty::Stream::Stdout) {
         match run_gui() {
             Err(error) => panic!("Error when running GUI: {:?}", error),
             _ => (),
@@ -117,7 +119,7 @@ fn run_gui() -> wry::Result<()> {
     // add webview and window ID to WEBVIEWS refcell hashmap
     let mut webview_hashmap: HashMap<WindowId, WebView> = HashMap::new();
     webview_hashmap.insert(window_id, webview);
-    // RefCell<HashMap<WindowId, WebView>> = RefCell::new(HashMap::new());
+
     WEBVIEWS.with(|webviews| {
         *webviews.borrow_mut() = webview_hashmap;
     });

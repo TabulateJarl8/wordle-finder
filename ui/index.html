@@ -88,6 +88,10 @@
 				background: #b59f3b;
 			}
 
+			.key[data-state='selected'] {
+				background: #538d4e;
+			}
+
 			.key-reserved {
 				background-color: #DBDDDF;
 				color: black;
@@ -117,7 +121,7 @@
 		</style>
 	</head>
 	<body>
-		<div class='wrapper'>
+		<div class='wrapper' id='tile-wrapper'>
 			<div class="tile" data-selected="false"></div>
 			<div class="tile" data-selected="false"></div>
 			<div class="tile" data-selected="false"></div>
@@ -239,8 +243,10 @@
 			document.addEventListener('keydown', function(e) {
 				if (e.key === "Backspace") {
 					seekElements(Direction.Left, '');
+					setGreenKeyboardKeys();
 				} else if (e.key.match(/^[a-zA-Z]{1}$/g)) {
 					seekElements(Direction.Right, e.key);
+					setGreenKeyboardKeys();
 				} else if (e.key === "ArrowRight") {
 					seekElements(Direction.Right, null);
 				} else if (e.key === "ArrowLeft") {
@@ -256,12 +262,15 @@
 				if (!keys[i].classList.contains('key-reserved')) {
 					keys[i].addEventListener('click', function(e) {
 						var state = this.getAttribute('data-state');
-						if (state == 'exclude') {
-							this.setAttribute('data-state', 'include');
-						} else if (state == 'include') {
-							this.removeAttribute('data-state');
-						} else {
-							this.setAttribute('data-state', 'exclude');
+						if (state != 'selected') {
+							// selected keys cannot be changed
+							if (state == 'exclude') {
+								this.setAttribute('data-state', 'include');
+							} else if (state == 'include') {
+								this.removeAttribute('data-state');
+							} else {
+								this.setAttribute('data-state', 'exclude');
+							}
 						}
 					});
 				}
@@ -276,6 +285,29 @@
 					tiles[i].removeAttribute('data-selected');
 				}
 			});
+
+			function setGreenKeyboardKeys() {
+				var current_letters = document.getElementById('tile-wrapper').textContent.replace(/\s/g, '').toUpperCase().split('');
+				var current_green_keys = document.querySelectorAll('.key[data-state="selected"]');
+
+				for (var i = 0; i < current_green_keys.length; i++) {
+					var key_letter = current_green_keys[i].textContent;
+					var index_of_letter = current_letters.indexOf(key_letter);
+					if (index_of_letter != -1) {
+						// highlighted key still in typed keys, remove it from typed keys
+						current_letters.splice(index_of_letter, 1);
+					} else {
+						// highlighted key no longer in typed keys, remove styling
+						current_green_keys[i].removeAttribute('data-state');
+					}
+				}
+
+				// iterate over remaining typed letters and add selected attribute to related keys
+				for (var i = 0; i < current_letters.length; i++) {
+					var relatedKey = document.evaluate('//span[contains(@class, "key") and text() = "' + current_letters[i] + '"]', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE).snapshotItem(0);
+					relatedKey.setAttribute('data-state', 'selected');
+				}
+			}
 
 			///////////////////////////
 			// Backend interaction
@@ -309,12 +341,8 @@
 				});
 
 				payload = {cmd: "populateWordList", pattern: pattern, exclude: exclude, include: include};
-				console.log('posting');
 				window.ipc.postMessage(JSON.stringify(payload));
 			});
-
-			// TODO: keys turn green when type
-			// var relatedKey = document.evaluate('//*[text()="' + letter.toUpperCase() + '"]', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE).snapshotItem(0);
 		</script>
 	</body>
 </html>
