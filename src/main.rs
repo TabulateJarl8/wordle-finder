@@ -1,3 +1,19 @@
+// Wordle Finder is a cross-platform CLI/GUI utility to assist in finding the word for the game "Wordle" and other similar knock-offs
+// Copyright (C) 2022 Connor Sample
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 use clap::{Arg, Command};
 use regex::Regex;
 use serde::Deserialize;
@@ -16,7 +32,7 @@ thread_local! {
     static WEBVIEWS: RefCell<HashMap<WindowId, WebView>> = RefCell::new(HashMap::new());
 }
 
-static VERSION: &str = "2.2.0";
+static VERSION: &str = env!("CARGO_PKG_VERSION");
 
 fn remove_whitespace(s: &str) -> String {
     s.chars().filter(|c| !c.is_whitespace()).collect()
@@ -35,9 +51,9 @@ fn contains_all(word: &str, characters: &str) -> bool {
 fn main() {
     // clap setup
     let matches = Command::new("Wordle Finder")
-                    .version(VERSION)
+                    .version(format!("v{}", VERSION).as_str())
                     .author("Connor Sample (TabulateJarl8)")
-                    .about("Helper tool to narrow down choices for wordle word")
+                    .about("A cross-platform CLI/GUI utility to assist in finding the word for the game \"Wordle\" and other similar knock-offs. Licensed under GPLv3.")
                     .arg(Arg::new("pattern")
                         .short('p')
                         .long("pattern")
