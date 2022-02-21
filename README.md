@@ -6,7 +6,7 @@ This program can either be used from a terminal, `./wordle_finder --help` for mo
 
 <details>
   <summary>GUI Frontend for version 2.0.0</summary>
-![GUI](https://user-images.githubusercontent.com/58576759/154787824-4358b931-f161-4ecb-9859-ba21066512c2.png)
+<img src="https://user-images.githubusercontent.com/58576759/154787824-4358b931-f161-4ecb-9859-ba21066512c2.png" alt="GUI" />
 </details>
 
 ## Downloading
