@@ -2,7 +2,11 @@
 Rust program to help find the wordle word
 
 ## Use
-This program can be used from a terminal, run `./wordle_finder --help` for more info. If you'd like to use the GUI frontend, you can launch it by running `./wordle_finder -g` in a terminal or opening the binary from a file explorer.
+### From the terminal
+Run `./wordle_finder --help` for more info.
+
+### As a GUI
+If you'd like to use the GUI frontend, you can launch it by running `./wordle_finder -g` in a terminal or opening the binary from a file explorer. You can type letters into their respective boxes and use the backspace key to delete them. In order to toggle yellow and dark grey letters, you can click on the appropriate key in the keyboard. 1 click changes it to dark grey, click it again to turn it to yellow, and click it a third time to change it back to it's original state. The reset key will reset all of your typed letters and keyboard keys, but keep the currently displayed wordlist. The enter key will submit the current state and return all possible words in the right-hand side column.
 
 ![GUI Example](img/main_ui.png)
 
