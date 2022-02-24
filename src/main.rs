@@ -56,8 +56,9 @@ fn main() {
                         .required(false))
                     .get_matches();
 
-    // run gui if specified or if not a tty (not running from a terminal)
-    if matches.is_present("gui") || !atty::is(atty::Stream::Stdout) {
+    // run gui if no args are specified (detecting a tty doesn't seem to work on windows)
+    // this should launch the GUI if run from a file explorer
+    if matches.is_present("gui") || std::env::args().len() == 1 {
         match gui::run_gui() {
             Err(error) => panic!("Error when running GUI: {:?}", error),
             _ => (),
