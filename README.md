@@ -4,10 +4,7 @@ Rust program to help find the wordle word
 ## Use
 This program can be used from a terminal, run `./wordle_finder --help` for more info. If you'd like to use the GUI frontend, you can launch it by running `./wordle_finder -g` in a terminal or opening the binary from a file explorer.
 
-<details>
-  <summary>GUI Frontend for version 2.0.0</summary>
-<img src="https://user-images.githubusercontent.com/58576759/154787824-4358b931-f161-4ecb-9859-ba21066512c2.png" alt="GUI" />
-</details>
+![GUI Example](assets/main_ui.png)
 
 ## Downloading
 I provide pre-built binaries on the releases page. I do not test the Windows binary, but it may work.

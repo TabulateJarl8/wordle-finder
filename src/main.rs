@@ -16,6 +16,7 @@
 
 use clap::{Arg, Command};
 use regex::Regex;
+use native_dialog::{MessageDialog, MessageType};
 
 mod gui;
 mod utils;
@@ -60,7 +61,22 @@ fn main() {
     // this should launch the GUI if run from a file explorer
     if matches.is_present("gui") || std::env::args().len() == 1 {
         match gui::run_gui() {
-            Err(error) => panic!("Error when running GUI: {:?}", error),
+            Err(error) => {
+                let result = MessageDialog::new()
+                    .set_title("Error")
+                    .set_text(&format!("{:?}", &error))
+                    .set_type(MessageType::Error)
+                    .show_alert();
+
+                match result {
+                    Err(second_error) => {
+                        eprintln!("Error when launching MessageDialog: {}", second_error);
+                        panic!("Error when running GUI: {:?}", error);
+                    },
+                    _ => ()
+                }
+
+            },
             _ => (),
         };
         std::process::exit(0);
