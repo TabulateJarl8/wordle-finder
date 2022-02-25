@@ -44,24 +44,22 @@ pub fn run_gui() -> wry::Result<()> {
         webview::WebViewBuilder,
     };
 
-    use image::RgbaImage;
+    use image::ImageFormat;
 
     let html_content = include_str!("../ui/index.html");
-    // create icon
-    // #[cfg(target_os = "windows")]
-    // let icon = include_bytes!("../img/wordle_finder_icon.ico").to_vec();
-    // #[cfg(not(target_os = "windows"))]
-    let icon: Vec<u8> = include_bytes!("../img/wordle_finder_icon.png").to_vec();
-    let imagebuffer = RgbaImage::from_raw(256, 256, icon).unwrap();
-    let pixels = imagebuffer.to_vec();
-    // let pixels: Vec<u8> = imagebuffer.enumerate_pixels().iter().collect();
+
+    // load icon
+    let bytes: Vec<u8> = include_bytes!("../img/wordle_finder_icon.png").to_vec();
+    let imagebuffer = image::load_from_memory_with_format(&bytes, ImageFormat::Png).unwrap().into_rgba8();
+    let (icon_width, icon_height) = imagebuffer.dimensions();
+    let icon_rgba = imagebuffer.into_raw();
 
     // build window
     let event_loop = EventLoop::new();
     let window = WindowBuilder::new()
         .with_title(format!("Wordle Finder v{}", VERSION))
         .with_inner_size(LogicalSize::new(990.0, 720.0))
-        .with_window_icon(Some(Icon::from_rgba(pixels, 256, 256).unwrap()))
+        .with_window_icon(Some(Icon::from_rgba(icon_rgba, icon_width, icon_height).unwrap()))
         .build(&event_loop)?;
     let window_id = window.id();
 
