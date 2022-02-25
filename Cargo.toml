@@ -1,12 +1,13 @@
 [package]
 name = "wordle_finder"
-version = "2.2.4"
+version = "2.2.5"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 clap = "3.0.14"
+image = { version = "0.24.1", default-features = false, features = ["png"] }
 native-dialog = { version = "0.6.3", features = ["windows_dpi_awareness", "windows_visual_styles"] }
 regex = "1.5.4"
 serde = { version = "1.0.136", features = ["derive"] }
