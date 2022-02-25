@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="227.79236mm"
+   height="227.79236mm"
+   viewBox="0 0 227.79236 227.79236"
+   version="1.1"
+   id="svg24325"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="wordle_finder_icon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview24327"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="0.54488787"
+     inkscape:cx="240.41644"
+     inkscape:cy="409.25851"
+     inkscape:window-width="1920"
+     inkscape:window-height="1051"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     height="227.79236mm" />
+  <defs
+     id="defs24322" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(13.980577,-65.368784)">
+    <path
+       sodipodi:type="star"
+       style="fill:#3423a6;fill-opacity:1"
+       id="path13200"
+       inkscape:flatsided="true"
+       sodipodi:sides="3"
+       sodipodi:cx="86.309372"
+       sodipodi:cy="215.90866"
+       sodipodi:r1="375.00067"
+       sodipodi:r2="187.50034"
+       sodipodi:arg1="0.54440547"
+       sodipodi:arg2="1.591603"
+       inkscape:rounded="0.15"
+       inkscape:randomized="0.37"
+       transform="matrix(0.11138117,0.24653863,-0.24653863,0.11138117,143.44484,120.08542)"
+       inkscape:transform-center-x="-0.087435003"
+       inkscape:transform-center-y="13.852804"
+       d="m 386.55723,525.46018 c -0.61389,113.6553 -653.522,68.76229 -681.53394,-42.8722 -28.01193,-111.63449 244.881102,-789.22453 350.21505,-743.04913 105.33395,46.1754 331.93278,672.26603 331.31889,785.92133 z" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:101.109px;line-height:1.25;font-family:sans-serif;fill:#8da9c4;fill-opacity:1;stroke:none;stroke-width:2.52774"
+       x="5.8035545"
+       y="214.65311"
+       id="text3003"><tspan
+         sodipodi:role="line"
+         id="tspan3001"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:101.109px;font-family:'Perfect Dark (BRK)';-inkscape-font-specification:'Perfect Dark (BRK), Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#8da9c4;fill-opacity:1;stroke-width:2.52774"
+         x="5.8035545"
+         y="214.65311">WF</tspan></text>
+  </g>
+</svg>

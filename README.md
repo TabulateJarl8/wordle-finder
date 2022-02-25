@@ -1,4 +1,4 @@
-# Wordle Finder
+![Wordle Finder](img/wordle_finder_logo.png)
 Rust program to help find the wordle word
 
 ## Use

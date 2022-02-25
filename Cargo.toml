@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 clap = "3.0.14"
+image = { version = "0.24.1", default-features = false, features = ["png"] }
 native-dialog = { version = "0.6.3", features = ["windows_dpi_awareness", "windows_visual_styles"] }
 regex = "1.5.4"
 serde = { version = "1.0.136", features = ["derive"] }
