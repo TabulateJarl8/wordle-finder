@@ -14,8 +14,16 @@ If you'd like to use the GUI frontend, you can launch it by running `./wordle-fi
 
 ![GUI Example](img/main_ui.png)
 
-## Downloading
-I provide pre-built binaries on the releases page. I do not test the Windows binary, but it may work.
+## Downloading and Installation
+
+I maintain an AUR package for Arch Linux users:
+
+```
+git clone https://aur.archlinux.org/wordle-finder.git && cd wordle-finder
+makepkg -si
+```
+
+For anyone else, or if you'd like the portable version, I provide pre-built binaries on the releases page. I do not test the Windows binary, but it may work.
 
 ### Windows Users
 If you launch the program by double clicking and it immediately closes, or you get an error similar to this: `thread 'main' panicked at 'Error when running GUI: WebView2Error(WindowsError(Error { code: 0x80070002, message: The system cannot find the file specified., win32_error: 2 }))'`, then you should try installing the WebView2 Runtime from the [Microsoft website](https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section).
