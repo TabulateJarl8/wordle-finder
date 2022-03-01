@@ -1,5 +1,8 @@
 ![Wordle Finder](img/wordle_finder_logo_dark.png#gh-dark-mode-only)
 ![Wordle Finder](img/wordle_finder_logo_light.png#gh-light-mode-only)
+
+<a href="https://aur.archlinux.org/packages/wordle-finder/"><img alt="AUR version" src="https://img.shields.io/aur/version/wordle-finder"></a>  
+
 # Rust program to help find the wordle word
 
 ## Use
