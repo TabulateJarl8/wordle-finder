@@ -1,4 +1,5 @@
-![Wordle Finder](img/wordle_finder_logo.png)
+![Wordle Finder](img/wordle_finder_logo_dark.png#gh-dark-mode-only)
+![Wordle Finder](img/wordle_finder_logo_light.png#gh-light-mode-only)
 # Rust program to help find the wordle word
 
 ## Use
