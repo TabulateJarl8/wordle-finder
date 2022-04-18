@@ -1907,7 +1907,7 @@ checksum = "08cabc9f0066848fef4bc6a1c1668e6efce38b661d2aeec75d18d8617eebb5f1"
 
 [[package]]
 name = "wordle-finder"
-version = "2.2.6"
+version = "2.3.0"
 dependencies = [
  "clap",
  "image",
