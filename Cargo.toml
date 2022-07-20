@@ -1,12 +1,14 @@
 [package]
 name = "wordle-finder"
-version = "2.3.0"
+version = "2.3.1"
 edition = "2021"
+authors = ["Connor Sample (TabulateJarl8)"]
+description = "A cross-platform CLI/GUI utility to assist in finding the word for the game \"Wordle\" and other similar knock-offs. Licensed under GPLv3."
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = "3.0.14"
+clap = { version = "3.0.14", features = ["cargo"] }
 image = { version = "0.24.1", default-features = false, features = ["png"] }
 native-dialog = { version = "0.6.3", features = ["windows_dpi_awareness", "windows_visual_styles"] }
 regex = "1.5.4"

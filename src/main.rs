@@ -14,48 +14,44 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use clap::{Arg, Command};
+use clap::{command, arg};
 use regex::Regex;
 use native_dialog::{MessageDialog, MessageType};
 
 mod gui;
 mod utils;
 
-// TODO: Bundle WebView2Loader.dll for windows users
-
 static VERSION: &str = env!("CARGO_PKG_VERSION");
 
 fn main() {
     // clap setup
-    let matches = Command::new("Wordle Finder")
-                    .version(format!("v{}", VERSION).as_str())
-                    .author("Connor Sample (TabulateJarl8)")
-                    .about("A cross-platform CLI/GUI utility to assist in finding the word for the game \"Wordle\" and other similar knock-offs. Licensed under GPLv3.")
-                    .arg(Arg::new("pattern")
-                        .short('p')
-                        .long("pattern")
-                        .help("Regex pattern to search for. Use a `.` for unknown character. E.g.: `app.e`")
-                        .takes_value(true)
-                        .required(false))
-                    .arg(Arg::new("exclude")
-                        .short('e')
-                        .long("exclude")
-                        .help("String of letters to exclude. E.g.: `ref`")
-                        .takes_value(true)
-                        .required(false))
-                    .arg(Arg::new("include")
-                        .short('i')
-                        .long("include")
-                        .help("String of letters to include. E.g.: `ref`")
-                        .takes_value(true)
-                        .required(false))
-                    .arg(Arg::new("gui")
-                        .short('g')
-                        .long("gui")
-                        .help("Launch the WebView GUI")
-                        .takes_value(false)
-                        .required(false))
-                    .get_matches();
+    let matches = command!()
+        .arg(
+            arg!(
+                -p --pattern <PATTERN> "Regex pattern to search for. Use a `.` for unknown character. E.g.: `app.e`"
+            )
+            .required(false)
+        )
+        .arg(
+            arg!(
+                -e --exclude <EXCLUDE> "String of letters to exclude. E.g.: `ref`"
+            )
+            .required(false)
+        )
+        .arg(
+            arg!(
+                -i --include <INCLUDE> "String of letters to include. E.g.: `ref`"
+            )
+            .required(false)
+        )
+        .arg(
+            arg!(
+                -g --gui "Launch the WebView GUI"
+            )
+            .required(false)
+        )
+        
+        .get_matches();
 
     // run gui if no args are specified (detecting a tty doesn't seem to work on windows)
     // this should launch the GUI if run from a file explorer
